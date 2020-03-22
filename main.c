@@ -75,10 +75,10 @@ int main(int argc, char *argv[]) {
 				triggers = 0;
 				break;
 			case ':':
-				printf("Option needs value\n");
+				fprintf(stderr, "Option needs value\n");
 				break;
 			case '?':
-				printf("Unknown option: %c\n");
+				fprintf(stderr, "Unknown option: %c\n");
 				break;
 		}
 
