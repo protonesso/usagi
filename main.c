@@ -1,44 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ext/argp/argp.h"
-
-const char *argp_program_version = "usagi 0.1";
-const char *argp_program_bug_address = "<ataraxialinux@protonmail.com>";
-static char doc[] = "Lighweight package manager";
-static char args_doc[] = "[PACKAGE]...";
-static struct argp_option options[] = {
-	{ "install", 'i', 0, 0, "Install binary usagi/neko package"},
-	{ 0 } 
-};
-
-struct arguments {
-	char *args[8];
-	int silent, verbose;
-	char *output_file;
-};
-
-static int usg_install() {
-	printf("Installing!\n");
-	return 0;
-}
-
-static error_t parse_opt(int key, char *arg, struct argp_state *state) {
-	struct arguments *arguments = state->input;
-	switch (key) {
-		case 'i':
-			usg_install();
-			break;
-		default:
-			return ARGP_ERR_UNKNOWN;
-	}
-	return 0;
-}
-
-static struct argp argp = { options, parse_opt, args_doc, doc, 0, 0, 0 };
+#include <string.h>
 
 int main(int argc, char **argv) {
-	struct arguments arguments;
+	char *subarg = argv[1];
+	char *operation = NULL;
 
-	argp_parse(&argp, argc, argv, 0, 0, &arguments);
+	if (argc < 2) {
+		fprintf(stderr, "fuk yo\n");
+		return 1;
+	}
+
+	if (strstr(subarg, "info") != NULL) {
+		operation = "us_info";
+	} else if (strstr(subarg, "install") != NULL) {
+		operation = "us_install";
+	} else if (strstr(subarg, "list") != NULL) {
+		operation = "us_list";
+	} else if (strstr(subarg, "remove") != NULL) {
+		operation = "us_remove";
+	} else if (strstr(subarg, "version") != NULL) {
+		operation = "us_verion";
+	} else {
+		fprintf(stderr, "Unknown command\n");
+		return 1;
+	}
+
+	printf("%s\n", operation);
+
 	return 0;
 }
