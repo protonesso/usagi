@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2001-2003 USAGI Technologies Japan
  * Copyright (c) 2016-2020 Ataraxia Linux <ataraxialinux@protonmail.com>
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -21,7 +22,7 @@
 #define VERSION "current"
 
 int main(int argc, char *argv[]) {
-	int c;
+	unsigned char c;
 	int force, needed = 0;
 	int depends, conflicts, scripts, triggers = 1;
 	char *subarg = argv[1];
