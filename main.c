@@ -22,8 +22,8 @@
 
 int main(int argc, char *argv[]) {
 	unsigned char c;
-	int force, needed = 0;
-	int depends, conflicts, scripts, triggers = 1;
+	bool force, needed = false;
+	bool depends, conflicts, scripts, triggers = true;
 	char *subarg = argv[1];
 	char *config = "/etc/neko/make.conf";
 	char *maskfile = "/etc/neko/mask";
