@@ -21,5 +21,6 @@
 
 struct usg_main {
 	bool force, needed, nodepends, noconflicts, noscripts, notriggers;
+	bool bootstrap, noclean, nodownload, noextract, nobuild, nopackage, nohashsums;
 	char *config, *maskfile, *rootfs;
 };

@@ -17,18 +17,19 @@
 
 #define VERSION "current"
 
+struct usg_main u;
+
 static void usg_install(const char *pkg) {
 	printf("installing: %s\n", pkg);
 }
 
 int main(int argc, char *argv[]) {
-	struct usg_main u;
-
 	int d;
 	unsigned char c;
 	char *subarg = argv[1];
 
 	u.force, u.needed, u.nodepends, u.noconflicts, u.noscripts, u.notriggers = false;
+	u.bootstrap, u.noclean, u.nodownload, u.noextract, u.nobuild, u.nopackage, u.nohashsums = false;
 	u.config = "/etc/neko/make.conf";
 	u.maskfile = "/etc/neko/mask";
 	u.rootfs = "/";
@@ -61,17 +62,11 @@ int main(int argc, char *argv[]) {
 
 	while ((d = getopt(argc, argv, ":fwndestCDEBPSc:m:r:")) != -1) {
 		switch (d) {
-			case 'c':
-				u.config = strdup(optarg);
-				break;
-			case 'm':
-				u.maskfile = strdup(optarg);
-				break;
-			case 'r':
-				u.rootfs = strdup(optarg);
-				break;
 			case 'f':
 				u.force = true;
+				break;
+			case 'w':
+				u.bootstrap = true;
 				break;
 			case 'n':
 				u.needed = true;
@@ -88,19 +83,46 @@ int main(int argc, char *argv[]) {
 			case 't':
 				u.notriggers = true;
 				break;
+			case 'C':
+				u.noclean = true;
+				break;
+			case 'D':
+				u.nodownload = true;
+				break;
+			case 'E':
+				u.noextract = true;
+				break;
+			case 'B':
+				u.nobuild = true;
+				break;
+			case 'P':
+				u.nopackage = true;
+				break;
+			case 'S':
+				u.nohashsums = true;
+				break;
+			case 'c':
+				u.config = strdup(optarg);
+				break;
+			case 'm':
+				u.maskfile = strdup(optarg);
+				break;
+			case 'r':
+				u.rootfs = strdup(optarg);
+				break;
 			case ':':
-				printf("option needs a value\n");
+				printf("Option needs a value\n");
 				return 1;
 				break;  
 			case '?':
-				printf("unknown option: %c\n", optopt);
+				printf("Unknown option: %c\n", optopt);
 				return 1;
 				break;
 		}
-	}
 
-	argc--;
-	argv++;
+		argc--;
+		argv++;
+	}
 
 	for (int i = 2; i < argc; i++) {
 		switch (c) {
