@@ -90,9 +90,11 @@ int main(int argc, char *argv[]) {
 				break;
 			case ':':
 				printf("option needs a value\n");
+				return 1;
 				break;  
 			case '?':
 				printf("unknown option: %c\n", optopt);
+				return 1;
 				break;
 		}
 	}
