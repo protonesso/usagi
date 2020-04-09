@@ -59,6 +59,47 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	while ((d = getopt(argc, argv, ":fwndestCDEBPSc:m:r:")) != -1) {
+		switch (d) {
+			case 'c':
+				u.config = strdup(optarg);
+				break;
+			case 'm':
+				u.maskfile = strdup(optarg);
+				break;
+			case 'r':
+				u.rootfs = strdup(optarg);
+				break;
+			case 'f':
+				u.force = true;
+				break;
+			case 'n':
+				u.needed = true;
+				break;
+			case 'd':
+				u.nodepends = true;
+				break;
+			case 'e':
+				u.noconflicts = true;
+				break;
+			case 's':
+				u.noscripts = true;
+				break;
+			case 't':
+				u.notriggers = true;
+				break;
+			case ':':
+				printf("option needs a value\n");
+				break;  
+			case '?':
+				printf("unknown option: %c\n", optopt);
+				break;
+		}
+	}
+
+	argc--;
+	argv++;
+
 	for (int i = 2; i < argc; i++) {
 		switch (c) {
 			case 0:
