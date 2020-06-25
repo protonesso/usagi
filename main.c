@@ -1,143 +1,116 @@
-/*
- * Copyright (c) 2001-2003 USAGI Technologies Japan
- * Copyright (c) 2016-2020 Ataraxia Linux <ataraxialinux@protonmail.com>
- * Permission to use, copy, modify, and/or distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-*/
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 
-#include "main.h"
-
-#define VERSION "current"
-
-struct usg_main u;
-
-static void usg_install(const char *pkg) {
-	printf("installing: %s\n", pkg);
+static void usage() {
+	printf("usagi - Simple package manager\n");
+	printf("\n");
+	printf("Usage: usagi [ACTION] [OPTIONS] [PACKAGE]");
+	printf("\n");
+	printf("Actions:\n");
+	printf("   build		Build package from source\n");
+	printf("   emerge		Build package and install it\n");
+	printf("   info			Show information about package\n");
+	printf("   install		Install package from file\n");
+	printf("   list			List all installed packages\n");
+	printf("   remove		Remove installed package\n");
+	printf("   search		Search for packages\n");
+	printf("   sync			Synchronize repositories\n");
+	printf("   upgrade		Upgrade all of installed packages\n");
+	printf("   version		Show usagi version\n");
+	printf("\n");
+	printf("Options:\n");
+	printf("In dev!\n");
+	printf("\n");
+	printf("BUG TRACKER: https://github.com/protonesso/usagi/issues\n");
+	printf("\n");
 }
 
-int main(int argc, char *argv[]) {
-	int d;
-	unsigned char c;
-	char *subarg = argv[1];
+int main(int argc, char* argv[]) {
+	bool pkgarr = false;
+	char* subarg = argv[1];
+	unsigned char mode;
 
-	u.force, u.needed, u.nodepends, u.noconflicts, u.noscripts, u.notriggers = false;
-	u.bootstrap, u.noclean, u.nodownload, u.noextract, u.nobuild, u.nopackage, u.nohashsums = false;
-	u.config = "/etc/neko/make.conf";
-	u.maskfile = "/etc/neko/mask";
-	u.rootfs = "/";
-
-	if (argc < 2) {
-		fprintf(stderr, "Specify command\n");
+	if (argc == 1) {
+		fprintf(stderr, "Command was not specified\n");
 		return 1;
 	}
 
-	if (strstr(subarg, "emerge") != NULL) {
-		c = 0;
-	} else if (strstr(subarg, "help") != NULL) {
-		//usg_help();
+	if (strstr(subarg, "build") != NULL) {
+		mode = 0;
+	} else if (strstr(subarg, "emerge") != NULL) {
+		mode = 1;
+		pkgarr = true;
 	} else if (strstr(subarg, "info") != NULL) {
-		c = 1;
+		mode = 2;
+		pkgarr = true;
 	} else if (strstr(subarg, "install") != NULL) {
-		c = 2;
+		mode = 3;
+		pkgarr = true;
 	} else if (strstr(subarg, "list") != NULL) {
-		//usg_list();
+		mode = 4;
 	} else if (strstr(subarg, "remove") != NULL) {
-		c = 3;
+		mode = 5;
+		pkgarr = true;
+	} else if (strstr(subarg, "search") != NULL) {
+		mode = 6;
+		pkgarr = true;
+	} else if (strstr(subarg, "sync") != NULL) {
+		mode = 7;
 	} else if (strstr(subarg, "upgrade") != NULL) {
-		//usg_upgrade();
+		mode = 8;
 	} else if (strstr(subarg, "version") != NULL) {
-		//usg_version();
+		printf("Version is unknown\n");
 	} else {
-		fprintf(stderr, "Unknown command\n");
+		usage();
 		return 1;
 	}
 
-	while ((d = getopt(argc, argv, ":fwndestCDEBPSc:m:r:")) != -1) {
-		switch (d) {
-			case 'f':
-				u.force = true;
-				break;
-			case 'w':
-				u.bootstrap = true;
-				break;
-			case 'n':
-				u.needed = true;
-				break;
-			case 'd':
-				u.nodepends = true;
-				break;
-			case 'e':
-				u.noconflicts = true;
-				break;
-			case 's':
-				u.noscripts = true;
-				break;
-			case 't':
-				u.notriggers = true;
-				break;
-			case 'C':
-				u.noclean = true;
-				break;
-			case 'D':
-				u.nodownload = true;
-				break;
-			case 'E':
-				u.noextract = true;
-				break;
-			case 'B':
-				u.nobuild = true;
-				break;
-			case 'P':
-				u.nopackage = true;
-				break;
-			case 'S':
-				u.nohashsums = true;
-				break;
-			case 'c':
-				u.config = strdup(optarg);
-				break;
-			case 'm':
-				u.maskfile = strdup(optarg);
-				break;
-			case 'r':
-				u.rootfs = strdup(optarg);
-				break;
-			case ':':
-				printf("Option needs a value\n");
-				return 1;
-				break;  
-			case '?':
-				printf("Unknown option: %c\n", optopt);
-				return 1;
-				break;
+	if (pkgarr == true) {
+		if (argc < 3) {
+			fprintf(stderr, "Not enough arguments\n");
+			return 1;
 		}
 
-		argc--;
-		argv++;
-	}
-
-	for (int i = 2; i < argc; i++) {
-		switch (c) {
+		for (int i = 2; i < argc; i++) {
+			switch (mode) {
+				case 1:
+					printf("Emerging package: %s\n", argv[i]);
+					break;
+				case 2:
+					printf("Information for %s\n", argv[i]);
+					break;
+				case 3:
+					printf("Installing package: %s\n", argv[i]);
+					break;
+				case 5:
+					printf("Removing package: %s\n", argv[i]);
+					break;
+				case 6:
+					printf("Searching for package %s\n", argv[i]);
+					break;
+				default:
+					usage();
+					return 1;
+			}
+		}
+	} else {
+		switch (mode) {
 			case 0:
-				//usg_emerge(argv[i]);
+				printf("Building package\n");
 				break;
-			case 1:
-				//usg_info(argv[i]);
+			case 4:
+				printf("Listing packages\n");
 				break;
-			case 2:
-				usg_install(argv[i]);
+			case 7:
+				printf("Syncing repos\n");
 				break;
-			case 3:
-				//usg_remove(argv[i]);
+			case 8:
+				printf("Upgrading system\n");
 				break;
+			default:
+				usage();
+				return 1;
 		}
 	}
 
