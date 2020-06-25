@@ -18,7 +18,7 @@ static void usage() {
 	printf("   version		Show usagi version\n\n");
 	printf("Options:\n");
 	printf("In dev!\n\n");
-	printf("BUG TRACKER: https://github.com/protonesso/usagi/issues\n");
+	printf("BUG TRACKER: https://github.com/protonesso/usagi/issues\n\n");
 }
 
 int main(int argc, char* argv[]) {
