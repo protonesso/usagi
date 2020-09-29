@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 static void usage() {
 	printf("usagi - Simple package manager\n\n");
@@ -25,6 +26,7 @@ int main(int argc, char* argv[]) {
 	bool pkgarr = false;
 	char* subarg = argv[1];
 	unsigned char mode;
+	int c;
 
 	if (argc == 1) {
 		fprintf(stderr, "Command was not specified\n");
@@ -61,13 +63,30 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
+	while ((c = getopt(argc, argv, "c:r:")) != -1) {
+		switch (c) {
+			case 'c':
+				printf("Config file is %s\n", optarg);
+				break;
+			case 'r':
+				printf("Rootfs is %s\n", optarg);
+				break;
+			case ':':
+				fprintf(stderr, "Option needs a value\n");
+				break;
+			case '?':
+				fprintf(stderr, "Unknown option: %c\n", optopt);
+				break;
+		}
+	}
+
 	if (pkgarr == true) {
 		if (argc < 3) {
 			fprintf(stderr, "Not enough arguments\n");
 			return 1;
 		}
 
-		for (int i = 2; i < argc; i++) {
+		for (int i = optind; i < argc; i++) {
 			switch (mode) {
 				case 1: printf("Emerging package: %s\n", argv[i]); break;
 				case 2: printf("Information for %s\n", argv[i]); break;
