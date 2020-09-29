@@ -31,30 +31,30 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	if (strstr(subarg, "build") != NULL) {
+	if (strcmp(subarg, "build") == 0) {
 		mode = 0;
-	} else if (strstr(subarg, "emerge") != NULL) {
+	} else if (strcmp(subarg, "emerge") == 0) {
 		mode = 1;
 		pkgarr = true;
-	} else if (strstr(subarg, "info") != NULL) {
+	} else if (strcmp(subarg, "info") == 0) {
 		mode = 2;
 		pkgarr = true;
-	} else if (strstr(subarg, "install") != NULL) {
+	} else if (strcmp(subarg, "install") == 0) {
 		mode = 3;
 		pkgarr = true;
-	} else if (strstr(subarg, "list") != NULL) {
+	} else if (strcmp(subarg, "list") == 0) {
 		mode = 4;
-	} else if (strstr(subarg, "remove") != NULL) {
+	} else if (strcmp(subarg, "remove") == 0) {
 		mode = 5;
 		pkgarr = true;
-	} else if (strstr(subarg, "search") != NULL) {
+	} else if (strcmp(subarg, "search") == 0) {
 		mode = 6;
 		pkgarr = true;
-	} else if (strstr(subarg, "sync") != NULL) {
+	} else if (strcmp(subarg, "sync") == 0) {
 		mode = 7;
-	} else if (strstr(subarg, "upgrade") != NULL) {
+	} else if (strcmp(subarg, "upgrade") == 0) {
 		mode = 8;
-	} else if (strstr(subarg, "version") != NULL) {
+	} else if (strcmp(subarg, "version") == 0) {
 		printf("Version is unknown\n");
 	} else {
 		usage();
