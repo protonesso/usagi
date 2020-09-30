@@ -36,22 +36,17 @@ int main(int argc, char* argv[]) {
 	if (strcmp(subarg, "build") == 0) {
 		mode = 0;
 	} else if (strcmp(subarg, "emerge") == 0) {
-		mode = 1;
-		pkgarr = true;
+		mode = 1; pkgarr = true;
 	} else if (strcmp(subarg, "info") == 0) {
-		mode = 2;
-		pkgarr = true;
+		mode = 2; pkgarr = true;
 	} else if (strcmp(subarg, "install") == 0) {
-		mode = 3;
-		pkgarr = true;
+		mode = 3; pkgarr = true;
 	} else if (strcmp(subarg, "list") == 0) {
 		mode = 4;
 	} else if (strcmp(subarg, "remove") == 0) {
-		mode = 5;
-		pkgarr = true;
+		mode = 5; pkgarr = true;
 	} else if (strcmp(subarg, "search") == 0) {
-		mode = 6;
-		pkgarr = true;
+		mode = 6; pkgarr = true;
 	} else if (strcmp(subarg, "sync") == 0) {
 		mode = 7;
 	} else if (strcmp(subarg, "upgrade") == 0) {
