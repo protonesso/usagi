@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 
-		for (int i = optind; i < argc; i++) {
+		for (int i = optind + 1; i < argc; i++) {
 			switch (mode) {
 				case 1: printf("Emerging package: %s\n", argv[i]); break;
 				case 2: printf("Information for %s\n", argv[i]); break;
