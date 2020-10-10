@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 struct payloadHeader {
-	char dotusagi[16];
-	char magic[16];
+	char extension[16];
+	char magic[18];
 	unsigned char compress[1];
 	unsigned char version[2];
 };
