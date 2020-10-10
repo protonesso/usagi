@@ -5,7 +5,7 @@
 
 struct payloadHeader {
 	char dotusagi[16];
-	char magic[8];
+	char magic[16];
 	unsigned char compress[1];
 	unsigned char version[2];
 };
