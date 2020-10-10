@@ -10,23 +10,25 @@ struct payloadHeader {
 	unsigned char version[2];
 };
 
-struct infoHeader {
+typedef enum {
 	/* Required fields */
-	char name[255];
-	char version[255];
-	char release[255];
-	char summary[255];
-	char section[255];
-	char priority[255];
+	name = 1,
+	version = 2,
+	release = 3,
+	summary = 4,
+	section = 5,
+	priority = 6,
+	url = 7,
 
 	/* Optional fields */
-	char depends[255];
-	char conflicts[255];
-	char provides[255];
-	char obsoletes[255];
-	char url[255];
-};
+	depends = 8,
+	conflicts = 9,
+	provides = 10,
+	suggests = 11,
+	obsoletes = 12
+} metaHeader;
 
-int usagi_add_payloadHeader(const char *file);
+int usagi_write_payloadHeader(const char *file);
+int usagi_write_metaHeader(const char *file, metaHeader meta, const char *str);
 
 #endif

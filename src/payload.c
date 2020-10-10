@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "payload.h"
 
-int usagi_add_payloadHeader(const char *file) {
+int usagi_write_payloadHeader(const char *file) {
 	FILE *fp = fopen(file, "wb");
 
 	if (!fp) {
@@ -21,6 +22,22 @@ int usagi_add_payloadHeader(const char *file) {
 	snprintf(payload.version, sizeof(payload.version), "%f", 1.0);
 
 	fwrite(&payload, 1, sizeof(struct payloadHeader), fp);
+
+	fclose(fp);
+
+	return 0;
+}
+
+int usagi_write_metaHeader(const char *file, metaHeader meta, const char *str) {
+	FILE *fp = fopen(file, "ab");
+
+	if (!fp) {
+		fprintf(stderr, "Cannot open file: %s\n", file);
+		fclose(fp);
+		return 1;
+	}
+
+	fwrite(str, meta, strlen(str), fp);
 
 	fclose(fp);
 
