@@ -17,7 +17,7 @@ int usagi_write_payloadHeader(const char *file) {
 
 	memset(&payload, 0, sizeof(struct payloadHeader));
 	snprintf(payload.extension, sizeof(payload.extension), "%s", ".USAGI");
-	snprintf(payload.magic, sizeof(payload.magic), "%d", 0x6174617261786961);
+	snprintf(payload.magic, sizeof(payload.magic), "%ld", 0x6174617261786961);
 	snprintf(payload.compress, sizeof(payload.compress), "%d", 1);
 	snprintf(payload.version, sizeof(payload.version), "%f", 1.0);
 

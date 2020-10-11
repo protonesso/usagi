@@ -4,10 +4,10 @@
 #include <stdint.h>
 
 struct payloadHeader {
-	char extension[18];
-	char magic[18];
-	unsigned char compress[1];
-	unsigned char version[2];
+	char extension[19];
+	char magic[20];
+	char compress[2];
+	char version[9];
 };
 
 typedef enum {
@@ -25,7 +25,8 @@ typedef enum {
 	conflicts = 9,
 	provides = 10,
 	suggests = 11,
-	obsoletes = 12
+	obsoletes = 12,
+	backup = 13
 } metaHeader;
 
 int usagi_write_payloadHeader(const char *file);
