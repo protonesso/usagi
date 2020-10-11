@@ -66,8 +66,6 @@ int usagi_write_cpio(FILE *cpio_file, const char *file, const char *iname) {
 
 	size_t end = ftell(cpio_file);
 
-	usagi_fexpand(cpio_file, 512 - offset, 0);
-
 	fseek(cpio_file, end, SEEK_SET);
 	fclose(input);
 
