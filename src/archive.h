@@ -2,7 +2,7 @@
 #define ARCHIVE_H
 
 struct cpioArchive {
-	char c_magic[8];
+	char c_magic[6];
 	char c_ino[8];
 	char c_mode[8];
 	char c_uid[8];
@@ -18,7 +18,6 @@ struct cpioArchive {
 	char c_check[8];
 };
 
-void usagi_fexpand(FILE *file, size_t amount, int val);
-int usagi_write_cpio(FILE *cpio_file, const char *file, const char *iname);
+int usagi_write_cpio(FILE *cpio_file, const char *file);
 
 #endif

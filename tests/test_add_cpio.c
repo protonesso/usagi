@@ -21,10 +21,8 @@ int main(int argc, char* argv[]) {
 	}
 
 	for (int i = 2; i < argc; i++) {
-		usagi_write_cpio(archive, argv[i], argv[i]);
+		usagi_write_cpio(archive, argv[i]);
 	}
-
-	usagi_fexpand(archive, 1024, 0);
 
 	fclose(archive);
 

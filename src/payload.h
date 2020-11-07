@@ -8,6 +8,7 @@ struct payloadHeader {
 	char magic[20];
 	char compress[2];
 	char version[9];
+	char null[2]; // must be always empty
 };
 
 typedef enum {
