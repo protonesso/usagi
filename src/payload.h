@@ -4,11 +4,11 @@
 #include <stdint.h>
 
 struct payloadHeader {
-	char extension[19];
-	char magic[20];
-	char compress[2];
-	char version[9];
-	char null[2]; // must be always empty
+	char ext[8];
+	char magic[6];
+	char comp[2];
+	char rel[3];
+	char null[1]; // must be always empty
 };
 
 typedef enum {
