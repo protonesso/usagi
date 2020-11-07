@@ -13,7 +13,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	FILE *input = fopen(file, "rb");;
 	int ret = fstat(fileno(input), &st);
 	if (ret < 0) {
-		fprintf(stderr, "Cannot open file: %s\n", file);
+		printf("Cannot open file: %s\n", file);
 		fclose(input);
 		return 1;
 	}

@@ -8,7 +8,7 @@ int usagi_write_payloadHeader(const char *file) {
 	FILE *fp = fopen(file, "wb");
 
 	if (!fp) {
-		fprintf(stderr, "Cannot open file: %s\n", file);
+		printf("Cannot open file: %s\n", file);
 		fclose(fp);
 		return 1;
 	}
@@ -32,7 +32,7 @@ int usagi_write_metaHeader(const char *file, metaHeader meta, const char *str) {
 	FILE *fp = fopen(file, "ab");
 
 	if (!fp) {
-		fprintf(stderr, "Cannot open file: %s\n", file);
+		printf("Cannot open file: %s\n", file);
 		fclose(fp);
 		return 1;
 	}

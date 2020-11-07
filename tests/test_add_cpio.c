@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 
 	FILE *archive = fopen(argv[1], "ab");
 	if (!archive) {
-		fprintf(stderr, "Cannot open file: %s\n", argv[1]);
+		printf("Cannot open file: %s\n", argv[1]);
 		return 1;
 	}
 
