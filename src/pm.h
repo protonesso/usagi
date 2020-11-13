@@ -10,4 +10,5 @@ struct options {
 	bool noscripts;
 	bool notriggers;
 };
+
 #endif
