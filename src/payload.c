@@ -7,18 +7,18 @@
 int usagi_write_payloadHeader(const char *file) {
 	struct payloadHeader payload;
 
-	FILE *fp = fopen(file, "wb");
+	FILE *fp = fopen_s(file, "wb");
 	if (!fp) {
-		printf("Cannot open file: %s\n", file);
+		printf_s("Cannot open file: %s\n", file);
 		fclose(fp);
 		return 1;
 	}
 
-	memset(&payload, 0, sizeof(struct payloadHeader));
-	sprintf(payload.ext, "%s", ".upk");
-	sprintf(payload.magic, "%s", "617617");
-	sprintf(payload.comp, "%d", 1);
-	sprintf(payload.rel, "%d", 1);
+	memset_s(&payload, 0, sizeof(struct payloadHeader));
+	sprintf_s(payload.ext, "%s", ".upk");
+	sprintf_s(payload.magic, "%s", "617617");
+	sprintf_s(payload.comp, "%d", 1);
+	sprintf_s(payload.rel, "%d", 1);
 
 	fwrite(&payload, 1, sizeof(struct payloadHeader), fp);
 
@@ -28,9 +28,9 @@ int usagi_write_payloadHeader(const char *file) {
 }
 
 int usagi_write_metaHeader(const char *file, metaHeader meta, const char *str) {
-	FILE *fp = fopen(file, "ab");
+	FILE *fp = fopen_s(file, "ab");
 	if (!fp) {
-		printf("Cannot open file: %s\n", file);
+		printf_s("Cannot open file: %s\n", file);
 		fclose(fp);
 		return 1;
 	}
