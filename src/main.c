@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
 	} else if (strcmp(subarg, "rollback") == 0) {
 		mode = 5; pkgarr = false;
 	} else if (strcmp(subarg, "version") == 0) {
-		printf("Version is unknown\n");
+		printf("usagi version is %s\n", VERSION);
 	} else {
 		usage();
 		return 1;
