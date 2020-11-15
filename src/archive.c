@@ -6,7 +6,7 @@
 
 #include "archive.h"
 
-int usagi_write_cpio(FILE *cpio_file, const char *file) {
+int usagi_write_cpio(FILE *archive, const char *file) {
 	struct stat st;
 	struct cpioArchive cpio;
 
@@ -18,7 +18,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 		return 1;
 	}
 
-	size_t index = ftell(cpio_file);
+	size_t index = ftell(archive);
 	fseek(input, 0, SEEK_SET);
 
 	size_t nsz = strlen(file) + 1;
@@ -39,13 +39,13 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_namesize, "%08zX", nsz);
 	snprintf(cpio.c_name, sizeof(cpio.c_name), "%s", res);
 
-	fseek(cpio_file, index, SEEK_SET);
-	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
+	fseek(archive, index, SEEK_SET);
+	fwrite(&cpio, sizeof(struct cpioArchive), 1, archive);
 
 	while (!feof(input)) {
 		char *buf = malloc(sizeof(char) * 1024);
 		size_t read = fread(buf, 1, sizeof(buf), input);
-		fwrite(buf, 1, read, cpio_file);
+		fwrite(buf, 1, read, archive);
 	}
 
 	memset(&cpio, 0, sizeof(struct cpioArchive));
@@ -63,8 +63,8 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_rdevminor, "%08X", 0);
 	sprintf(cpio.c_namesize, "%08X", 0);
 
-	fseek(cpio_file, index, SEEK_END);
-	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
+	fseek(archive, index, SEEK_END);
+	fwrite(&cpio, sizeof(struct cpioArchive), 1, archive);
 
 	fclose(input);
 

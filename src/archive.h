@@ -19,6 +19,6 @@ struct cpioArchive {
 	char *c_name;
 };
 
-int usagi_write_cpio(FILE *cpio_file, const char *file);
+int usagi_write_cpio(FILE *archive, const char *file);
 
 #endif
