@@ -15,22 +15,25 @@ AC_CHECK_TOOL([AR],[llvm-ar])
 AC_CHECK_TOOL([STRIP],[llvm-strip])
 AC_CHECK_TOOL([RANLIB],[llvm-ranlib])
 AM_PROG_INSTALL_STRIP
-
 LT_PREREQ([2.2])
 LT_INIT([dlopen shared])
 
-PKG_CHECK_MODULES([LIBZSTD], [libzstd >= 1.4.0])
+AC_ARG_ENABLE(werror,
+		[  --enable-werror	Use -Werror compiler flag],
+		enable_werror=$enableval,
+		enable_werror=no)
 
-no_llvm=no
-AC_RUN_IFELSE([AC_LANG_PROGRAM([
-#if defined(__clang__)
-exit(1);
-#endif
-])], [no_llvm=yes])
+AX_CHECK_COMPILE_FLAG([-std=c2x], [
+			CXXFLAGS="$CXXFLAGS -std=c2x"])
+AX_CHECK_COMPILE_FLAG([-Wall], [
+			CXXFLAGS="$CXXFLAGS -Wall"])
 
-if test "$no_llvm" = "yes"; then
-	AC_MSG_WARN([Building without LLVM toolchain])
+if test "x$enable_werror" = "xyes"; then
+	AX_CHECK_COMPILE_FLAG([-Werror], [
+				CXXFLAGS="$CXXFLAGS -Werror"])
 fi
+
+PKG_CHECK_MODULES([LIBZSTD], [libzstd >= 1.4.0])
 
 AC_CONFIG_FILES([Makefile
 		src/Makefile])
