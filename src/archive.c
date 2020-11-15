@@ -21,7 +21,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	size_t index = ftell(cpio_file);
 	fseek(input, 0, SEEK_SET);
 
-	int nsz = ftell(input);
+	size_t nsz = strlen(file) + 1;
 
 	memset(&cpio, 0, sizeof(struct cpioArchive));
 	sprintf(cpio.c_magic, "%s", "070701");
@@ -36,7 +36,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_devminor, "%08X", minor(st.st_dev));
 	sprintf(cpio.c_rdevmajor, "%08X", major(st.st_rdev));
 	sprintf(cpio.c_rdevminor, "%08X", minor(st.st_rdev));
-	sprintf(cpio.c_namesize, "%08X", nsz);
+	sprintf(cpio.c_namesize, "%08zX", nsz);
 
 	fseek(cpio_file, index, SEEK_SET);
 	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
