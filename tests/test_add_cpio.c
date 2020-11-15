@@ -14,9 +14,9 @@ int main(int argc, char* argv[]) {
 	usagi_write_metaHeader(argv[1], url, "http://rpm.org/");
 	usagi_write_metaHeader(argv[1], backup, "/etc/resolv.conf /etc/passwd");
 
-	FILE *archive = fopen_s(argv[1], "ab");
+	FILE *archive = fopen(argv[1], "ab");
 	if (!archive) {
-		printf_s("Cannot open file: %s\n", argv[1]);
+		printf("Cannot open file: %s\n", argv[1]);
 		return 1;
 	}
 
