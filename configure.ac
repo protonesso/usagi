@@ -40,7 +40,7 @@ AX_CHECK_COMPILE_FLAG([-pedantic], [CFLAGS="$CFLAGS -pedantic"], [AC_MSG_ERROR([
 AC_CHECK_HEADERS(sys/sysmacros.h stdbool.h)
 
 PKG_CHECK_MODULES([LIBSQLITE], [sqlite3 >= 3.33.0])
-PKG_CHECK_MODULES([LIBZSTD], [libzstd >= 1.4.0])
+PKG_CHECK_MODULES([LIBZSTD], [libzstd >= 1.4.5])
 
 AC_CONFIG_FILES([Makefile
 		src/Makefile])
