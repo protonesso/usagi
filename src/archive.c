@@ -9,6 +9,7 @@
 int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	struct stat st;
 	struct cpioArchive cpio;
+	char *res;
 
 	FILE *input = fopen(file, "rb");;
 	int ret = fstat(fileno(input), &st);
@@ -22,6 +23,10 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	fseek(input, 0, SEEK_SET);
 	int nsz = ftell(input);
 
+	res = malloc(sizeof(char) * 1024);
+	strcpy(res, file);
+
+	memset(&cpio, 0, sizeof(struct cpioArchive));
 	sprintf(cpio.c_magic, "%s", "070701");
 	sprintf(cpio.c_ino, "%08lX", st.st_ino);
 	sprintf(cpio.c_mode, "%08X", st.st_mode);
@@ -37,7 +42,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_namesize, "%08X", nsz);
 
 	fseek(cpio_file, index, SEEK_SET);
-	fwrite(&cpio, 1, sizeof(struct cpioArchive), cpio_file);
+	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
 
 	while (!feof(input)) {
 		char *buf = malloc(sizeof(char) * 1024);
@@ -45,6 +50,8 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 		fwrite(buf, 1, read, cpio_file);
 	}
 
+	memset(&cpio, 0, sizeof(struct cpioArchive));
+	sprintf(cpio.c_magic, "%s", "070701");
 	sprintf(cpio.c_ino, "%08X", 0);
 	sprintf(cpio.c_mode, "%08X", 0);
 	sprintf(cpio.c_uid, "%08X", 0);
@@ -59,7 +66,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_namesize, "%08X", 0);
 
 	fseek(cpio_file, index, SEEK_END);
-	fwrite(&cpio, 1, sizeof(struct cpioArchive), cpio_file);
+	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
 
 	fclose(input);
 
