@@ -72,8 +72,3 @@ int usagi_write_cpio(std::string archive, std::string file) {
 
 	return 0;
 }
-
-int main() {
-	usagi_write_cpio("fuck", "niggers");
-	return 0;
-}
