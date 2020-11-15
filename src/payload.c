@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "config.h"
 #include "payload.h"
 
 int usagi_write_payloadHeader(const char *file) {

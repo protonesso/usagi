@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "config.h"
 #include "archive.h"
 #include "payload.h"
 
