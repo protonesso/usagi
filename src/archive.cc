@@ -1,26 +1,28 @@
 #include <sys/stat.h>
 #include <sys/sysmacros.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 
 #include "archive.h"
 
-int usagi_write_cpio(FILE *cpio_file, const char *file) {
+int usagi_write_cpio(std::string archive, std::string file) {
 	struct stat st;
 	struct cpioArchive cpio;
+	std::string trailer = "TRAILER!!!";
 
-	FILE *input = fopen(file, "rb");;
-	int ret = fstat(fileno(input), &st);
+	std::ofstream archive_rw(archive,
+			std::ios::out | std::ios::binary | std::ios::app);
+	std::ifstream input(file, std::ifstream::in);
+
+	int ret = stat(file.c_str(), &st);
 	if (ret < 0) {
-		printf("Cannot open file: %s\n", file);
-		fclose(input);
+		std::cout << "Cannot open file: " << file << std::endl;
+		input.close();
 		return 1;
 	}
 
-	size_t index = ftell(cpio_file);
-	fseek(input, 0, SEEK_SET);
-	int nsz = ftell(input);
+	size_t nsz = file.size() + 1;
 
 	memset(&cpio, 0, sizeof(struct cpioArchive));
 	sprintf(cpio.c_magic, "%s", "070701");
@@ -35,15 +37,16 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_devminor, "%08X", minor(st.st_dev));
 	sprintf(cpio.c_rdevmajor, "%08X", major(st.st_rdev));
 	sprintf(cpio.c_rdevminor, "%08X", minor(st.st_rdev));
-	sprintf(cpio.c_namesize, "%08X", nsz);
+	sprintf(cpio.c_namesize, "%08zX", nsz);
+	sprintf(cpio.c_check, "%07x", 0);
+	archive_rw.write(reinterpret_cast<char *>(&cpio), sizeof(struct cpioArchive));
+	archive_rw.write(file.c_str(), file.size() + 3);
 
-	fseek(cpio_file, index, SEEK_SET);
-	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
-
-	while (!feof(input)) {
-		char *buf = malloc(sizeof(char) * 1024);
-		size_t read = fread(buf, 1, sizeof(buf), input);
-		fwrite(buf, 1, read, cpio_file);
+	while (input.good()) {
+		char c;
+		while (input.get(c)) {
+			archive_rw << c;
+		}
 	}
 
 	memset(&cpio, 0, sizeof(struct cpioArchive));
@@ -60,11 +63,17 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_rdevmajor, "%08X", 0);
 	sprintf(cpio.c_rdevminor, "%08X", 0);
 	sprintf(cpio.c_namesize, "%08X", 0);
+	sprintf(cpio.c_check, "%07x", 0);
+	archive_rw.write(reinterpret_cast<char *>(&cpio), sizeof(struct cpioArchive));
+	archive_rw.write(trailer.c_str(), trailer.size() + 1);
 
-	fseek(cpio_file, index, SEEK_END);
-	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
+	input.close();
+	archive_rw.close();
 
-	fclose(input);
+	return 0;
+}
 
+int main() {
+	usagi_write_cpio("fuck", "niggers");
 	return 0;
 }

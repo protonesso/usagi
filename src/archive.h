@@ -18,6 +18,6 @@ struct cpioArchive {
 	char c_check[8];
 };
 
-int usagi_write_cpio(FILE *cpio_file, const char *file);
+int usagi_write_cpio(std::string archive, std::string file);
 
 #endif

@@ -9,7 +9,7 @@ AC_CONFIG_MACRO_DIRS([m4])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_PROG_AWK([awk])
-AC_PROG_CC([clang])
+AC_PROG_CXX([clang++ c++])
 AC_CHECK_TOOL([OBJDUMP],[llvm-objdump])
 AC_CHECK_TOOL([AR],[llvm-ar])
 AC_CHECK_TOOL([STRIP],[llvm-strip])
@@ -25,17 +25,17 @@ AC_ARG_ENABLE(werror,
 		enable_werror=$enableval,
 		enable_werror=no)
 
-AX_CHECK_COMPILE_FLAG([-std=c2x], [CFLAGS="$CFLAGS -std=c2x"], [AC_MSG_ERROR([C compiler does not accept -std=c2x])])
-AX_CHECK_COMPILE_FLAG([-Wall], [CFLAGS="$CFLAGS -Wall"], [AC_MSG_ERROR([C compiler does not accept -Wall])])
-AX_CHECK_COMPILE_FLAG([-Wextra], [CFLAGS="$CFLAGS -Wextra"], [AC_MSG_ERROR([C compiler does not accept -Wextra])])
-AX_CHECK_COMPILE_FLAG([-Wunused-function], [CFLAGS="$CFLAGS -Wunused-function"], [AC_MSG_ERROR([C compiler does not accept -Wunused-function])])
-AX_CHECK_COMPILE_FLAG([-Wunused-label], [CFLAGS="$CFLAGS -Wunused-label"], [AC_MSG_ERROR([C compiler does not accept -Wunused-label])])
-AX_CHECK_COMPILE_FLAG([-Wunused-value], [CFLAGS="$CFLAGS -Wunused-value"], [AC_MSG_ERROR([C compiler does not accept -Wunused-value])])
-AX_CHECK_COMPILE_FLAG([-Wunused-variable], [CFLAGS="$CFLAGS -Wunused-variable"], [AC_MSG_ERROR([C compiler does not accept -Wunused-variable])])
+AX_CHECK_COMPILE_FLAG([-std=c++20], [CXXFLAGS="$CXXFLAGS -std=c++20"], [AC_MSG_ERROR([C compiler does not accept -std=c++20])])
+AX_CHECK_COMPILE_FLAG([-Wall], [CXXFLAGS="$CXXFLAGS -Wall"], [AC_MSG_ERROR([C compiler does not accept -Wall])])
+AX_CHECK_COMPILE_FLAG([-Wextra], [CXXFLAGS="$CXXFLAGS -Wextra"], [AC_MSG_ERROR([C compiler does not accept -Wextra])])
+AX_CHECK_COMPILE_FLAG([-Wunused-function], [CXXFLAGS="$CXXFLAGS -Wunused-function"], [AC_MSG_ERROR([C compiler does not accept -Wunused-function])])
+AX_CHECK_COMPILE_FLAG([-Wunused-label], [CXXFLAGS="$CXXFLAGS -Wunused-label"], [AC_MSG_ERROR([C compiler does not accept -Wunused-label])])
+AX_CHECK_COMPILE_FLAG([-Wunused-value], [CXXFLAGS="$CXXFLAGS -Wunused-value"], [AC_MSG_ERROR([C compiler does not accept -Wunused-value])])
+AX_CHECK_COMPILE_FLAG([-Wunused-variable], [CXXFLAGS="$CXXFLAGS -Wunused-variable"], [AC_MSG_ERROR([C compiler does not accept -Wunused-variable])])
 if test "x$enable_werror" = "xyes"; then
-	AX_CHECK_COMPILE_FLAG([-Werror], [CFLAGS="$CFLAGS -Werror"], [AC_MSG_ERROR([C compiler does not accept -Werror])])
+	AX_CHECK_COMPILE_FLAG([-Werror], [CXXFLAGS="$CXXFLAGS -Werror"], [AC_MSG_ERROR([C compiler does not accept -Werror])])
 fi
-AX_CHECK_COMPILE_FLAG([-pedantic], [CFLAGS="$CFLAGS -pedantic"], [AC_MSG_ERROR([C compiler does not accept -pedantic])])
+AX_CHECK_COMPILE_FLAG([-pedantic], [CXXFLAGS="$CXXFLAGS -pedantic"], [AC_MSG_ERROR([C compiler does not accept -pedantic])])
 
 AC_CHECK_HEADERS(sys/sysmacros.h stdbool.h)
 
