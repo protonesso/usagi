@@ -6,7 +6,7 @@
 
 #include "archive.h"
 
-int usagi_write_cpio(FILE *archive, const char *file) {
+int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	struct stat st;
 	struct cpioArchive cpio;
 
@@ -18,7 +18,9 @@ int usagi_write_cpio(FILE *archive, const char *file) {
 		return 1;
 	}
 
-	size_t nsz = strlen(file) + 1;
+	size_t index = ftell(cpio_file);
+	fseek(input, 0, SEEK_SET);
+	int nsz = ftell(input);
 
 	memset(&cpio, 0, sizeof(struct cpioArchive));
 	sprintf(cpio.c_magic, "%s", "070701");
@@ -33,13 +35,15 @@ int usagi_write_cpio(FILE *archive, const char *file) {
 	sprintf(cpio.c_devminor, "%08X", minor(st.st_dev));
 	sprintf(cpio.c_rdevmajor, "%08X", major(st.st_rdev));
 	sprintf(cpio.c_rdevminor, "%08X", minor(st.st_rdev));
-	sprintf(cpio.c_namesize, "%08zX", nsz);
-	fwrite(&cpio, sizeof(struct cpioArchive), 1, archive);
+	sprintf(cpio.c_namesize, "%08X", nsz);
+
+	fseek(cpio_file, index, SEEK_SET);
+	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
 
 	while (!feof(input)) {
 		char *buf = malloc(sizeof(char) * 1024);
 		size_t read = fread(buf, 1, sizeof(buf), input);
-		fwrite(buf, 1, read, archive);
+		fwrite(buf, 1, read, cpio_file);
 	}
 
 	memset(&cpio, 0, sizeof(struct cpioArchive));
@@ -56,7 +60,9 @@ int usagi_write_cpio(FILE *archive, const char *file) {
 	sprintf(cpio.c_rdevmajor, "%08X", 0);
 	sprintf(cpio.c_rdevminor, "%08X", 0);
 	sprintf(cpio.c_namesize, "%08X", 0);
-	fwrite(&cpio, sizeof(struct cpioArchive), 1, archive);
+
+	fseek(cpio_file, index, SEEK_END);
+	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);
 
 	fclose(input);
 
