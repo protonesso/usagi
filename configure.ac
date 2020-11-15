@@ -27,12 +27,19 @@ AC_ARG_ENABLE(werror,
 
 AX_CHECK_COMPILE_FLAG([-std=c2x], [CFLAGS="$CFLAGS -std=c2x"], [AC_MSG_ERROR([C compiler does not accept -std=c2x])])
 AX_CHECK_COMPILE_FLAG([-Wall], [CFLAGS="$CFLAGS -Wall"], [AC_MSG_ERROR([C compiler does not accept -Wall])])
-AX_CHECK_COMPILE_FLAG([-pedantic], [CFLAGS="$CFLAGS -pedantic"], [AC_MSG_ERROR([C compiler does not accept -pedantic])])
-
+AX_CHECK_COMPILE_FLAG([-Wextra], [CFLAGS="$CFLAGS -Wextra"], [AC_MSG_ERROR([C compiler does not accept -Wextra])])
+AX_CHECK_COMPILE_FLAG([-Wunused-function], [CFLAGS="$CFLAGS -Wunused-function"], [AC_MSG_ERROR([C compiler does not accept -Wunused-function])])
+AX_CHECK_COMPILE_FLAG([-Wunused-label], [CFLAGS="$CFLAGS -Wunused-label"], [AC_MSG_ERROR([C compiler does not accept -Wunused-label])])
+AX_CHECK_COMPILE_FLAG([-Wunused-value], [CFLAGS="$CFLAGS -Wunused-value"], [AC_MSG_ERROR([C compiler does not accept -Wunused-value])])
+AX_CHECK_COMPILE_FLAG([-Wunused-variable], [CFLAGS="$CFLAGS -Wunused-variable"], [AC_MSG_ERROR([C compiler does not accept -Wunused-variable])])
 if test "x$enable_werror" = "xyes"; then
 	AX_CHECK_COMPILE_FLAG([-Werror], [CFLAGS="$CFLAGS -Werror"], [AC_MSG_ERROR([C compiler does not accept -Werror])])
 fi
+AX_CHECK_COMPILE_FLAG([-pedantic], [CFLAGS="$CFLAGS -pedantic"], [AC_MSG_ERROR([C compiler does not accept -pedantic])])
 
+AC_CHECK_HEADERS(sys/sysmacros.h stdbool.h)
+
+PKG_CHECK_MODULES([LIBSQLITE], [sqlite3 >= 3.33.0])
 PKG_CHECK_MODULES([LIBZSTD], [libzstd >= 1.4.0])
 
 AC_CONFIG_FILES([Makefile

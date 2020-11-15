@@ -9,7 +9,6 @@
 int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	struct stat st;
 	struct cpioArchive cpio;
-	char *res;
 
 	FILE *input = fopen(file, "rb");;
 	int ret = fstat(fileno(input), &st);
@@ -23,9 +22,6 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	fseek(input, 0, SEEK_SET);
 
 	int nsz = ftell(input);
-
-	res = malloc(sizeof(char) * 1024);
-	strcpy(res, file);
 
 	memset(&cpio, 0, sizeof(struct cpioArchive));
 	sprintf(cpio.c_magic, "%s", "070701");
