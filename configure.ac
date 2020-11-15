@@ -19,6 +19,8 @@ AM_PROG_INSTALL_STRIP
 LT_PREREQ([2.2])
 LT_INIT([dlopen shared])
 
+CPPFLAGS="$CPPFLAGS -D_XOPEN_SOURCE=700"
+
 AC_ARG_ENABLE(werror,
 		[  --enable-werror           Use -Werror compiler flag],
 		enable_werror=$enableval,
