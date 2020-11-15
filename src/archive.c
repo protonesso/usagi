@@ -21,6 +21,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 
 	size_t index = ftell(cpio_file);
 	fseek(input, 0, SEEK_SET);
+
 	int nsz = ftell(input);
 
 	res = malloc(sizeof(char) * 1024);
