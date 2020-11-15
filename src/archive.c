@@ -37,6 +37,7 @@ int usagi_write_cpio(FILE *cpio_file, const char *file) {
 	sprintf(cpio.c_rdevmajor, "%08X", major(st.st_rdev));
 	sprintf(cpio.c_rdevminor, "%08X", minor(st.st_rdev));
 	sprintf(cpio.c_namesize, "%08zX", nsz);
+	snprintf(cpio.c_name, sizeof(cpio.c_name), "%s", res);
 
 	fseek(cpio_file, index, SEEK_SET);
 	fwrite(&cpio, sizeof(struct cpioArchive), 1, cpio_file);

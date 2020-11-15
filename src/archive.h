@@ -16,6 +16,7 @@ struct cpioArchive {
 	char c_rdevminor[8];
 	char c_namesize[8];
 	char c_check[8];
+	char *c_name;
 };
 
 int usagi_write_cpio(FILE *cpio_file, const char *file);
