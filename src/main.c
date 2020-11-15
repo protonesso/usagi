@@ -1,3 +1,5 @@
+#define _XOPEN_SOURCE 700
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -75,7 +77,7 @@ int main(int argc, char* argv[]) {
 			case 's': opts.noscripts = true; break;
 			case 't': opts.notriggers = true; break;
 			case ':': fprintf(stderr, "Option needs a value\n"); break;
-			case '?': fprintf(stderr, "Unknown option: %c\n", optopt); break;
+			case '?': fprintf(stderr, "Unknown option: %s\n", optarg); break;
 		}
 	}
 
