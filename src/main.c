@@ -1,9 +1,10 @@
+#define _XOPEN_SOURCE 700
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
-#include "config.h"
 #include "pm.h"
 
 void usg_garbage() {}

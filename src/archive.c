@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "config.h"
 #include "archive.h"
 
 int usagi_write_cpio(FILE *cpio_file, const char *file) {

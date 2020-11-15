@@ -1,4 +1,3 @@
-#include "config.h"
 #include "payload.h"
 
 int main() {
