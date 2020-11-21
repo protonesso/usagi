@@ -4,11 +4,11 @@
 #include <stdbool.h>
 
 struct options {
-	bool force;
-	bool needed;
-	bool nodeps;
-	bool noscripts;
-	bool notriggers;
+  bool force;
+  bool needed;
+  bool nodeps;
+  bool noscripts;
+  bool notriggers;
 };
 
 #endif
